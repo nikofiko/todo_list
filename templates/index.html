@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nikodem todos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    .<div class="todo-wrappe">
+        <h1>To-Do</h1>
+
+        <form action="{{ url_for('add') }}" method="post">
+            <input type="text" name="todo">
+            <button type="submit">Add Todo</button>
+        </form>
+
+        <ul>
+            {% for todo in todos %}
+            <li> 
+                <a href="{{ url_for('check', index=loop.index0) }}">
+                    <input type="checkbox" name="done" {% if todo['done']%} checked {%endif%} disabled onchange="this.form.submit()">
+                    <span {%if todo['done'] %} style="text-decoration: line-through" {%endif%}>{{ todo['task']}}</span>
+                </a>
+                <div class="controls-wrapper">
+                    <a href="{{ url_for('edit', index=loop.index0) }}">Edit</a>
+                    <a href="{{ url_for('delete', index=loop.index0) }}">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .todo-wrapper{
+        min-width: 450px;
+    }
+    h1{
+        width: 100%;
+        text-align: center;
+    }
+    form{
+        margin-bottom: 21px;
+    }
+    form input{
+        border: none;
+        outline: none;
+        box-shadow: 0px 5px 25px 0px rgba(7,36,86,0.08);
+        background-color: white;
+        border-radius: 20px;
+        padding: 15px;
+        margin-right: 10px;
+    }
+    form input::placeholder{
+        color: rgba(128, 128, 128, 0.52);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 15px;
+    }
+    form input:focus{
+        border: none;
+        outline: none;
+    }
+    form button{
+        border: none;
+        font-size: 15px;
+        padding: 15px 40px;
+        line-height: normal;
+        transition: all 0.3s ease-out;
+        color: white;
+        background: linear-gradient(45deg,rgba(238, 183, 132, 1), rgba(238, 183, 132, 0.8));
+        border-radius: 50px;
+        font-weight: 500;
+        box-shadow: 0px 8px 24px 0px rgba(66, 67, 33, 0.25);
+    }
+    form button:hover{
+        opacity: 0.8;
+        cursor: pointer;
+    }
+    ul{
+        list-style-type: none;
+        width: 100%;
+        padding: 0px;
+    }
+    ul li{
+        width: 100%;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+    ul li a{
+        text-decoration: none;
+        color: black;
+        font-weight: 400
+    }
+    .controls-wrapper a{
+        font-weight: 500;
+    }
+
+</style>
